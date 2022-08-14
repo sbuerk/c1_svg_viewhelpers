@@ -4,7 +4,6 @@
     "homepage": "https://www.comuno.net",
     "license": ["GPL-2.0+"],
     "type": "typo3-cms-extension",
-    "version": "0.1.0",
     "keywords": [
         "Viewhelpers",
         "Fluid",
@@ -35,7 +34,8 @@
         "friendsofphp/php-cs-fixer": "^2.13",
         "roave/security-advisories": "dev-master",
         "phpstan/phpstan": "^1.8",
-        "saschaegerer/phpstan-typo3": "^1.1"
+        "saschaegerer/phpstan-typo3": "^1.1",
+        "typo3/tailor": "^1.4"
     },
     "autoload": {
         "psr-4": {
