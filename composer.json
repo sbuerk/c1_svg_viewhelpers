@@ -22,9 +22,6 @@
             "typo3/class-alias-loader": true
         }
     },
-    "replace": {
-        "c1/c1-svg-viewhelpers": "self.version"
-    },
     "extra": {
         "typo3/cms": {
             "extension-key": "c1_svg_viewhelpers",
