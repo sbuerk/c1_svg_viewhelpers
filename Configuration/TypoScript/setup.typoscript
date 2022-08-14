@@ -1,0 +1,12 @@
+plugin.tx_c1svgviewhelpers {
+    svg {
+        symbol {
+            presets {
+                default {
+                    file = {$plugin.tx_c1svgviewhelpers.svg.symbol.presets.default.file}
+                    baseClass = {$plugin.tx_c1svgviewhelpers.svg.symbol.presets.default.baseClass}
+                }
+            }
+        }
+    }
+}

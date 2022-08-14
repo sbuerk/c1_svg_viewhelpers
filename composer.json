@@ -1,0 +1,60 @@
+{
+    "name": "c1/c1-svg-viewhelpers",
+    "description": "SVG viewhelpers - include SVGs as symbol files in TYPO3",
+    "homepage": "https://www.comuno.net",
+    "license": ["GPL-2.0+"],
+    "type": "typo3-cms-extension",
+    "version": "0.1.0",
+    "keywords": [
+        "Viewhelpers",
+        "Fluid",
+        "Templating",
+        "SVG",
+        "Symbol"
+     ],
+    "require": {
+        "typo3/cms-core": "^11"
+    },
+    "config": {
+        "vendor-dir": ".Build/vendor",
+        "allow-plugins": {
+            "typo3/cms-composer-installers": true,
+            "typo3/class-alias-loader": true
+        }
+    },
+    "replace": {
+        "c1/c1-svg-viewhelpers": "self.version"
+    },
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "c1_svg_viewhelpers",
+            "web-dir": ".Build/public"
+        }
+    },
+    "require-dev": {
+        "nimut/testing-framework": "^6.0.1",
+        "phpunit/phpunit": "^8.5.22",
+        "helmich/typo3-typoscript-lint": "^v2.5.2",
+        "friendsofphp/php-cs-fixer": "^2.13",
+        "roave/security-advisories": "dev-master"
+    },
+    "autoload": {
+        "psr-4": {
+            "C1\\C1SvgViewHelpers\\": "Classes/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "C1\\C1SvgViewHelpers\\Tests\\" : "Tests/"
+        }
+    },
+    "scripts": {
+        "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
+        "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
+        "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
+        "tests:unit": "@php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
+        "tests": [
+            "@tests:unit"
+        ]
+    }
+}
