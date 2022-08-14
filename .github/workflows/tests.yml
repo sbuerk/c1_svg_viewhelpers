@@ -1,0 +1,65 @@
+name: tests
+
+on: [push, pull_request]
+
+jobs:
+  lint:
+    runs-on: ubuntu-20.04
+    name: Linting
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up PHP Version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: 7.4
+          coverage: none
+          tools: composer:v2
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache
+          key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
+      - name: Add GITHUB_TOKEN if available
+        run: if [ -n "${{secrets.GITHUB_TOKEN}}" ]; then composer config github-oauth.github.com ${{secrets.GITHUB_TOKEN}}; fi;
+      - name: Install composer dependencies
+        run: |
+          rm -f composer.lock
+          composer install
+      - name: phpstan
+        run: composer phpstan
+      - name: PHPCS
+        run: composer php:lint
+      - name: Typoscript Linter
+        run: composer ts:lint
+
+  tests:
+    runs-on: ubuntu-20.04
+    strategy:
+      fail-fast: false
+      matrix:
+        env:
+          # - { php: 7.4, TYPO3_VERSION: ^11.0 }
+          - { php: 7.4 }
+          - { php: 8.0 }
+          - { php: 8.1 }
+    name: Tests on PHP${{ matrix.env.php }}
+    steps:
+      - uses: actions/checkout@v3
+      - name: Set up PHP Version
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.env.php }}
+          tools: composer:v2
+          coverage: none
+      - name: Cache dependencies
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache
+          key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
+      - name: Add GITHUB_TOKEN if available
+        run: if [ -n "${{secrets.GITHUB_TOKEN}}" ]; then composer config github-oauth.github.com ${{secrets.GITHUB_TOKEN}}; fi;
+      - name: Install composer dependencies
+        run: |
+          composer install
+      - name: Unit tests (with PHP${{ matrix.env.php }})
+        run: composer tests:unit

@@ -36,7 +36,9 @@
         "phpunit/phpunit": "^8.5.22",
         "helmich/typo3-typoscript-lint": "^v2.5.2",
         "friendsofphp/php-cs-fixer": "^2.13",
-        "roave/security-advisories": "dev-master"
+        "roave/security-advisories": "dev-master",
+        "phpstan/phpstan": "^1.8",
+        "saschaegerer/phpstan-typo3": "^1.1"
     },
     "autoload": {
         "psr-4": {
@@ -52,9 +54,15 @@
         "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
         "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
         "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
+        "phpstan": ".Build/vendor/bin/phpstan analyse",
         "tests:unit": "@php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
         "tests": [
             "@tests:unit"
+        ],
+        "ci:static": [
+            "@phpstan",
+            "@php:lint",
+            "@ts:lint"
         ]
     }
 }

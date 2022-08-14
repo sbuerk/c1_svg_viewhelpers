@@ -11,7 +11,9 @@ class TypoScript
 {
     public static function getSettings(): array
     {
+        /** @var ConfigurationManager $configurationManager */
         $configurationManager = GeneralUtility::makeInstance(ConfigurationManager::class);
+        /** @var TypoScriptService $typoScriptService */
         $typoScriptService = GeneralUtility::makeInstance(TypoScriptService::class);
 
         $typoScript = $configurationManager->getConfiguration(

@@ -53,6 +53,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      */
     private function getTagBuilder(): TagBuilder
     {
+        /** @var TagBuilder */
         return GeneralUtility::makeInstance('TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder');
     }
 
@@ -131,7 +132,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     /*
      * Get public path of the symbolFile
      */
-    public function getSvgPublicFile()
+    public function getSvgPublicFile(): string
     {
         if ($this->symbolsFile && $this->getSymbolFilePath()) {
             return $this->getSymbolFilePath();
@@ -198,7 +199,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     /*
      * Build the outer span tag
      */
-    public function buildTag()
+    public function buildTag(): string
     {
         $this->tag->setTagName('span');
         $this->tag->addAttribute('class', $this->getCssClassNames());
