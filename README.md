@@ -17,7 +17,7 @@ composer req c1/c1-svg-viewhelpers
 3. Include the generated S(CSS) or LESS files
 4. Configure the presets in the TypoScript constants and or setup, i.e. set
    plugin.tx_c1svgviewhelpers.svg.symbol.presets.default to point to the generated symbol file and add
-   more preset keys if needed. For convinience you should always keep the default key which allows you to use 
+   more preset keys if needed. For convenience you should always keep the default key which allows you to use 
    the svgvh:symbol viewhelper without providing the symbolFile argument.
 5. Add basic CSS for the icons to properly display. E.g. if your icons are prefixed with .icon-default:
    ```css
@@ -95,7 +95,7 @@ Create a svg-sprite.config.json for svg-sprite:
   },
   "mode": {
     "symbol": {
-      "dest": "_target_path",
+      "dest": "target_path",
       "sprite": "sprite-default.svg",
       "prefix": ".icon-default-%s",
       "render": {
