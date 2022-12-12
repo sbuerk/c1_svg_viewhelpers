@@ -41,7 +41,7 @@ Using an SVG symbols file has some benefits, e.g.
 
 - the symbol file is cachable by the browser
 - only one HTTP request for all icons in one symbol file
-- the icons can be styled using CSS (but manipulation of the SVG with JavaScript is NOT possible)
+- the icons can be styled using CSS, see note below (but manipulation of the SVG with JavaScript is NOT possible)
 
 See below for more information about SVG symbol files and how to generate them.
 
@@ -76,7 +76,7 @@ In addition all universal tag attributes are supported:
 
 class, dir, id, lang, style, title, accesskey, tabindex and onclick
 
-#### Creating SVG symbols file and SCSS
+## Creating SVG symbols file and SCSS
 
 There are many ways to create the needed symbols file and there are plugins for webpack, gulp, grunt etc.
 
@@ -117,3 +117,11 @@ svg-sprite --config svg-sprite.config.json path/to/*.svg
 If successful, this will generate
 * target_path/_icon-default.scss - the file with default dimensions for the icons
 * target_path/sprite-default.svg - the symbol file containing all icons
+
+## Notes
+
+To be able to style the icons using CSS you need to prepare the single SVG files:
+
+Assuming you want to be able to style the stroke or fill color of an icon, replace its color value with 'currentValue' to make it use the parents color.
+
+See https://stackoverflow.com/questions/13000682/how-do-i-have-an-svg-image-inherit-colors-from-the-html-document
