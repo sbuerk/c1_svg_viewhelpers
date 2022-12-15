@@ -80,7 +80,7 @@ class, dir, id, lang, style, title, accesskey, tabindex and onclick
 
 There are many ways to create the needed symbols file and there are plugins for webpack, gulp, grunt etc.
 
-One simple solution is to the npm package [svg-sprite](https://github.com/svg-sprite/svg-sprite/)
+One simple solution is to install the npm package [svg-sprite](https://github.com/svg-sprite/svg-sprite/)
 which we can use to create the symbol file from a set of svg icons and also generated an SCSS file 
 which contains the icon dimensions.
 
