@@ -7,9 +7,7 @@ $EM_CONF[$_EXTKEY] = [
     'author_email' => 't3dev@comuno.net',
     'author_company' => 'comuno.net',
     'state' => 'stable',
-    'uploadfolder' => '0',
-    'createDirs' => '',
-    'clearCacheOnLoad' => 1,
+    'clearCacheOnLoad' => true,
     'version' => '1.0.0',
     'autoload' => [
         'psr-4' => [
@@ -18,7 +16,7 @@ $EM_CONF[$_EXTKEY] = [
     ],
     'constraints' => [
         'depends' => [
-            'typo3' => '11.5.0-11.5.99'
+            'typo3' => '11.5.0-12.1.99'
         ],
         'conflicts' => [
         ],
