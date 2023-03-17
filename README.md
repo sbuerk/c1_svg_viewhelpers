@@ -20,7 +20,7 @@ composer req c1/c1-svg-viewhelpers
    more preset keys if needed. For convenience you should always keep the default key which allows you to use 
    the svgvh:symbol viewhelper without providing the symbolFile argument.
 5. Add basic CSS for the icons to properly display. E.g. if your icons are prefixed with .icon-default:
-   ```css
+   ```scss
     .icon-default {
         display: inline-block;
         >svg {
@@ -39,7 +39,7 @@ referencing an external SVG symbols file.
 
 Using an SVG symbols file has some benefits, e.g.
 
-- the symbol file is cachable by the browser
+- the symbol file is cacheable by the browser
 - only one HTTP request for all icons in one symbol file
 - the icons can be styled using CSS, see note below (but manipulation of the SVG with JavaScript is NOT possible)
 
@@ -47,13 +47,13 @@ See below for more information about SVG symbol files and how to generate them.
 
 #### Usage
 
-```fluid
+```html
 <svgvh:symbol identifier='icon-id' />
 ```
 
 will output something like:
 
-```
+```html
 <span class="icon-default icon-default-icon-id icon-default-icon-id-dims">
     <svg role="graphics-symbol">
         <use xlink:href="/path/to/sprite-default.svg?cb=5db10127a446fff1f0d0240086487da1#icon-id"></use>
