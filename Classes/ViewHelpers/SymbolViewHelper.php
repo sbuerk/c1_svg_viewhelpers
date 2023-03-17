@@ -14,9 +14,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     protected string $baseClass = 'icon';
     protected array $settings = [];
 
-    /*
-     * Initialize the viewhelper
-     */
+    // Initialize the viewhelper
     public function initialize(): void
     {
         parent::initialize();
@@ -25,17 +23,13 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         $this->setBaseClass();
     }
 
-    /*
-     * Return the TypoScript settings for this extension
-     */
+    // Return the TypoScript settings for this extension
     protected function getTypoScriptSettings(): array
     {
         return TypoScript::getSettings();
     }
 
-    /*
-     * Initialize viewhelper arguments
-     */
+    // Initialize viewhelper arguments
     public function initializeArguments(): void
     {
         parent::initializeArguments();
@@ -48,9 +42,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         $this->registerArgument('cacheBuster', 'boolean', 'Add a cache buster', false, true);
     }
 
-    /*
-     * Get a tagBuilder instance
-     */
+    // Get a tagBuilder instance
     private function getTagBuilder(): TagBuilder
     {
         /** @var TagBuilder */
@@ -113,25 +105,19 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $classNames;
     }
 
-    /*
-     * Get absolute file name and path of the symbolFile
-     */
+    // Get absolute file name and path of the symbolFile
     public function getAbsoluteFilename(): string
     {
         return GeneralUtility::getFileAbsFileName($this->symbolsFile);
     }
 
-    /*
-     * Get the resolved path to the symbolFile
-     */
+    // Get the resolved path to the symbolFile
     public function getSymbolFilePath(): string
     {
         return PathUtility::getAbsoluteWebPath($this->getAbsoluteFileName());
     }
 
-    /*
-     * Get public path of the symbolFile
-     */
+    // Get public path of the symbolFile
     public function getSvgPublicFile(): string
     {
         if ($this->symbolsFile && $this->getSymbolFilePath()) {
@@ -140,17 +126,13 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $this->symbolsFile;
     }
 
-    /*
-     * Return cache buster enabled or not
-     */
+    // Return cache buster enabled or not
     public function cacheBusterEnabled(): bool
     {
         return $this->arguments['cacheBuster'] ? true : false;
     }
 
-    /*
-     * Get cache buster string
-     */
+    // Get cache buster string
     public function getCacheBuster(): string
     {
         if (!empty($this->symbolsFile) && file_exists($this->getAbsoluteFilename())) {
@@ -159,9 +141,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return '';
     }
 
-    /*
-     * Build the use tag
-     */
+    // Build the use tag
     public function buildUseTag(): string
     {
         if ($this->cacheBusterEnabled()) {
@@ -175,9 +155,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $tagBuilder->render();
     }
 
-    /*
-     * Build the SVG tag
-     */
+    // Build the SVG tag
     public function buildSvgTag(): string
     {
         $tagBuilder = $this->getTagBuilder();
@@ -196,9 +174,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $tagBuilder->render();
     }
 
-    /*
-     * Build the outer span tag
-     */
+    // Build the outer span tag
     public function buildTag(): string
     {
         $this->tag->setTagName('span');
@@ -211,9 +187,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $this->tag->render();
     }
 
-    /*
-     * Render the viewhelper output
-     */
+    // Render the viewhelper output
     public function render(): string
     {
         return $this->buildTag();

@@ -31,7 +31,7 @@
         "nimut/testing-framework": "^6.0.1",
         "phpunit/phpunit": "^8.5.22",
         "helmich/typo3-typoscript-lint": "^v2.5.2",
-        "friendsofphp/php-cs-fixer": "^2.13",
+        "friendsofphp/php-cs-fixer": "^3.0",
         "roave/security-advisories": "dev-master",
         "phpstan/phpstan": "^1.8",
         "saschaegerer/phpstan-typo3": "^1.1",
@@ -50,8 +50,8 @@
     },
     "scripts": {
         "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-        "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php_cs",
-        "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php_cs",
+        "php:lint": ".Build/vendor/bin/php-cs-fixer fix --diff --dry-run --config .php-cs-fixer.php",
+        "php:fix": ".Build/vendor/bin/php-cs-fixer fix --diff --config .php-cs-fixer.php",
         "phpstan": ".Build/vendor/bin/phpstan analyse",
         "tests:unit": "@php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
         "tests": [
