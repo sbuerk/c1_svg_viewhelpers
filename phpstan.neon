@@ -1,5 +1,5 @@
 parameters:
-  level: 8
+  level: 9
   reportUnmatchedIgnoredErrors: false
   checkMissingIterableValueType: false
   bootstrapFiles:
@@ -12,5 +12,5 @@ parameters:
   ignoreErrors:
     - message: '#Variable \$_EXTKEY might not be defined#'
       path: '*/ext_emconf.php'
-  excludes_analyse:
+  excludePaths:
     - Tests/Acceptance/_support/_generated
