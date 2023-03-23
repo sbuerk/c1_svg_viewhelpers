@@ -63,14 +63,15 @@ will output something like:
 
 #### Arguments
 
-| attribute      | Description                                                    | Type      | default         | required    |
-|:---------------|:---------------------------------------------------------------| :---      |:----------------| :---        |
-| identifier     | icon id in the symbols file                                    | string    |                 | yes         |
-| symbolFile     | Preset identifier or path to file, also supports EXT: notation | string    | default         | no          |
-| baseClass      | Prefix for the icon's class names                              | string    | icon-default    | no          |
-| role           | role for accessibility                                         | string    | graphics-symbol | no          |
-| ariaLabel      | Sets the aria-label on the svg tag for accessibility           | string    |                 | no          |
-| cacheBuster    | Add a cache buster parameter to the symbolFile url             | bool      | true            | no          |
+| attribute   | Description                                                    | Type      | default         | required    |
+|:------------|:---------------------------------------------------------------| :---      |:----------------| :---        |
+| identifier  | icon id in the symbols file                                    | string    |                 | yes         |
+| symbolFile  | Preset identifier or path to file, also supports EXT: notation | string    | default         | no          |
+| baseClass   | Prefix for the icon's class names                              | string    | icon-default    | no          |
+| role        | role for accessibility                                         | string    | graphics-symbol | no          |
+| ariaLabel   | Sets the aria-label on the svg tag for accessibility           | string    |                 | no          |
+| cacheBuster | Add a cache buster parameter to the symbolFile url             | bool      | true            | no          |
+| preload     | Preload the symbols file by inserting a link rel="preload" tag | bool      | true            | no          |
 
 In addition all universal tag attributes are supported:
 

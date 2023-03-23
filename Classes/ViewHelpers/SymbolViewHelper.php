@@ -3,6 +3,7 @@
 namespace C1\C1SvgViewHelpers\ViewHelpers;
 
 use C1\C1SvgViewHelpers\Utilities\TypoScript;
+use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3Fluid\Fluid\Core\ViewHelper\AbstractTagBasedViewHelper;
@@ -11,8 +12,21 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 class SymbolViewHelper extends AbstractTagBasedViewHelper
 {
     protected string $symbolsFile = '';
-    protected string $baseClass = 'icon';
+    protected string $baseClass;
+    protected bool $preload;
     protected array $settings = [];
+
+    /**
+     * @var PageRenderer
+     */
+    protected PageRenderer $pageRenderer;
+    /**
+     * @param PageRenderer $pageRenderer
+     */
+    public function injectPageRenderer(PageRenderer $pageRenderer)
+    {
+        $this->pageRenderer = $pageRenderer;
+    }
 
     // Initialize the viewhelper
     public function initialize(): void
@@ -21,6 +35,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         $this->settings = $this->getTypoScriptSettings();
         $this->setSymbolFile();
         $this->setBaseClass();
+        $this->setPreload();
     }
 
     // Return the TypoScript settings for this extension
@@ -40,6 +55,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         $this->registerArgument('role', 'string', 'the role-attribute, default is graphics-symbol', false, 'graphics-symbol');
         $this->registerArgument('ariaLabel', 'string', 'the aria-label attribute which describes the svg image', false);
         $this->registerArgument('cacheBuster', 'boolean', 'Add a cache buster', false, true);
+        $this->registerArgument('preload', 'boolean', 'Add preload tag', false);
     }
 
     // Get a tagBuilder instance
@@ -89,6 +105,34 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
             }
         }
     }
+
+    /*
+     * Set the preload argument either from (in this order)
+     * - preload viewhelper argument
+     * - TypoScript Presets
+     * - fallback to true if the value was not set by the 2 options above
+     */
+    public function setPreload(): void
+    {
+        if ($this->arguments['preload']) {
+            $this->preload = $this->arguments['preload'];
+        } else {
+            $presets = $this->settings['svg']['symbol']['presets'];
+            if (
+                isset($presets[$this->arguments['symbolFile']]) &&
+                array_key_exists('preload', $presets[$this->arguments['symbolFile']])
+            ) {
+                $this->preload = $this->toBoolean($presets[$this->arguments['symbolFile']]['preload']);
+            } else {
+                $this->preload = true;
+            }
+        }
+    }
+
+    protected function toBoolean($value) {
+        return filter_var($value, FILTER_VALIDATE_BOOLEAN);
+    }
+
 
     /*
      * Get css class names based on
@@ -141,14 +185,19 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return '';
     }
 
+    public function getSymbolFileURL(): string
+    {
+        $url = $this->getSvgPublicFile();
+        if ($this->cacheBusterEnabled()) {
+            $url .= $this->getCacheBuster();
+        }
+        return $url;
+    }
+
     // Build the use tag
     public function buildUseTag(): string
     {
-        if ($this->cacheBusterEnabled()) {
-            $xlink = $this->getSvgPublicFile() . $this->getCacheBuster() . '#' . $this->arguments['identifier'];
-        } else {
-            $xlink = $this->getSvgPublicFile() . '#' . $this->arguments['identifier'];
-        }
+        $xlink = $this->getSymbolFileURL() . '#' . $this->arguments['identifier'];
         $tagBuilder = $this->getTagBuilder();
         $tagBuilder->setTagName('use');
         $tagBuilder->addAttribute('xlink:href', $xlink);
@@ -187,9 +236,17 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $this->tag->render();
     }
 
+    public function addPreloadHeader()
+    {
+       $this->pageRenderer->addHeaderData('<link rel="preload" href="' . $this->getSymbolFileURL() . '" as="image" fetchpriority="high" />');
+    }
+
     // Render the viewhelper output
     public function render(): string
     {
+        if ($this->preload) {
+            $this->addPreloadHeader();
+        }
         return $this->buildTag();
     }
 }
