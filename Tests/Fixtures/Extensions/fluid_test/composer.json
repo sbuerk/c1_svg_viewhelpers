@@ -1,0 +1,11 @@
+{
+    "name": "typo3/fixture-fluid-test",
+    "type": "typo3-cms-extension",
+    "description": "Some Fluid rendering tests",
+    "license": "GPL-2.0-or-later",
+    "extra": {
+        "typo3/cms": {
+            "extension-key": "fluid_test"
+        }
+    }
+}

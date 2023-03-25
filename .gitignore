@@ -1,6 +1,9 @@
 /composer.lock
 /.Build/
+/Build/.env
 /.idea
 /.php-cs-fixer.cache
 /Tests/.phpunit.result.cache
 /var/
+/.cache
+/composer.json.testing

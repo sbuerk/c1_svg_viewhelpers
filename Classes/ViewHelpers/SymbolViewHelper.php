@@ -29,10 +29,10 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     }
 
     // Initialize the viewhelper
-    public function initialize(): void
+    public function initialize($settings=null): void
     {
         parent::initialize();
-        $this->settings = $this->getTypoScriptSettings();
+        $this->settings = is_array($settings) ? $settings : $this->getTypoScriptSettings();
         $this->setSymbolFile();
         $this->setBaseClass();
         $this->setPreload();
@@ -74,6 +74,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     {
         $presets = $this->settings['svg']['symbol']['presets'];
         if (
+            $this->hasArgument('symbolFile') &&
             isset($presets[$this->arguments['symbolFile']]) &&
             array_key_exists('file', $presets[$this->arguments['symbolFile']])
         ) {
@@ -114,8 +115,8 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      */
     public function setPreload(): void
     {
-        if ($this->arguments['preload']) {
-            $this->preload = $this->arguments['preload'];
+        if ($this->hasArgument('preload')) {
+            $this->preload = $this->toBoolean($this->arguments['preload']);
         } else {
             $presets = $this->settings['svg']['symbol']['presets'];
             if (
@@ -129,10 +130,10 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         }
     }
 
-    protected function toBoolean($value) {
+    protected function toBoolean($value)
+    {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
-
 
     /*
      * Get css class names based on
@@ -143,7 +144,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     {
         $classNames = $this->baseClass . ' ' . $this->baseClass . '-' . $this->arguments['identifier'];
         $classNames .= ' ' . $this->baseClass . '-' . $this->arguments['identifier'] . '-dims';
-        if ($this->hasArgument('class')) {
+        if ($this->hasArgument('class') && $this->arguments['class'] !== '') {
             $classNames .= ' ' . $this->arguments['class'];
         }
         return $classNames;
@@ -238,7 +239,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
 
     public function addPreloadHeader()
     {
-       $this->pageRenderer->addHeaderData('<link rel="preload" href="' . $this->getSymbolFileURL() . '" as="image" fetchpriority="high" />');
+        $this->pageRenderer->addHeaderData('<link rel="preload" href="' . $this->getSymbolFileURL() . '" as="image" fetchpriority="high" />');
     }
 
     // Render the viewhelper output

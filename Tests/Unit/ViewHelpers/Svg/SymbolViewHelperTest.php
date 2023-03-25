@@ -18,7 +18,8 @@ class SymbolViewHelperTest extends AbstractViewHelperBaseTestcase
                 'getTypoScriptSettings',
                 'getSymbolFilePath',
                 'getAbsoluteFilename',
-                'getCacheBuster'
+                'getCacheBuster',
+                'addPreloadHeader'
             ]
         );
 
@@ -29,7 +30,7 @@ class SymbolViewHelperTest extends AbstractViewHelperBaseTestcase
                         'presets' => [
                             'default' => [
                                 'file' =>  'EXT:c1_svg_viewhelpers/Resources/Public/Default/symbol/default-symbol.svg',
-                                'baseClass' => 'testiconset'
+                                'baseClass' => 'testiconset',
                             ]
                         ]
                     ]
@@ -38,6 +39,7 @@ class SymbolViewHelperTest extends AbstractViewHelperBaseTestcase
         );
         $this->viewHelper->expects($this->any())->method('getAbsoluteFilename')->willReturn('path');
         $this->viewHelper->expects($this->any())->method('getCacheBuster')->willReturn('?cb=cachebuster');
+        $this->viewHelper->expects($this->once())->method('addPreloadHeader');
         $this->injectDependenciesIntoViewHelper($this->viewHelper);
     }
 
@@ -125,6 +127,38 @@ class SymbolViewHelperTest extends AbstractViewHelperBaseTestcase
                 ],
                 [],
                 '<span class="testiconset testiconset-identifier testiconset-identifier-dims mycustomclass"><svg role="graphics-symbol"><use xlink:href="EXT:c1_svg_viewhelpers/Resources/Public/Default/symbol/default-symbol.svg?cb=cachebuster#identifier" /></svg></span>'
+            ],
+        ];
+    }
+
+    /**
+     * @test
+     * @dataProvider noPreloadHeaderIsAddedProvider
+     * @param $arguments
+     * @param $settings
+     */
+    public function noPreloadHeaderIsAdded($arguments, $settings)
+    {
+        $this->setArgumentsUnderTest($this->viewHelper, $arguments);
+        $this->viewHelper->initialize();
+        $this->viewHelper->_set('settings', $settings);
+        $this->viewHelper->expects($this->never())->method('addPreloadHeader');
+        $this->viewHelper->render();
+        //$this->assertEquals($expected, $result);
+    }
+
+    /**
+     * @return array
+     */
+    public function noPreloadHeaderIsAddedProvider()
+    {
+        return [
+            'preload disabled from viewhelper arguments' => [
+                [
+                    'identifier' => 'identifier',
+                    'preload' => 'false',
+                ],
+                [],
             ],
         ];
     }
