@@ -23,13 +23,13 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     /**
      * @param PageRenderer $pageRenderer
      */
-    public function injectPageRenderer(PageRenderer $pageRenderer)
+    public function injectPageRenderer(PageRenderer $pageRenderer): void
     {
         $this->pageRenderer = $pageRenderer;
     }
 
     // Initialize the viewhelper
-    public function initialize($settings=null): void
+    public function initialize(array $settings=null): void
     {
         parent::initialize();
         $this->settings = is_array($settings) ? $settings : $this->getTypoScriptSettings();
@@ -78,9 +78,12 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
             isset($presets[$this->arguments['symbolFile']]) &&
             array_key_exists('file', $presets[$this->arguments['symbolFile']])
         ) {
-            $this->symbolsFile = $presets[$this->arguments['symbolFile']]['file'];
-        } else {
-            $this->symbolsFile = $this->arguments['symbolFile'];
+            $this->symbolsFile = (string) $presets[$this->arguments['symbolFile']]['file'];
+        } elseif ($this->hasArgument('symbolFile')) {
+            $this->symbolsFile = (string) $this->arguments['symbolFile'];
+        }
+        else {
+            $this->symbolsFile = 'default';
         }
     }
 
@@ -130,7 +133,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         }
     }
 
-    protected function toBoolean($value)
+    protected function toBoolean(mixed $value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
@@ -237,7 +240,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $this->tag->render();
     }
 
-    public function addPreloadHeader()
+    public function addPreloadHeader(): void
     {
         $this->pageRenderer->addHeaderData('<link rel="preload" href="' . $this->getSymbolFileURL() . '" as="image" fetchpriority="high" />');
     }
