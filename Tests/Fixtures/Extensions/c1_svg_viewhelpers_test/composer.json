@@ -1,11 +1,11 @@
 {
-    "name": "typo3/fixture-fluid-test",
+    "name": "typo3/fixture-c1-svg-viewhelpers-test",
     "type": "typo3-cms-extension",
     "description": "Some Fluid rendering tests",
     "license": "GPL-2.0-or-later",
     "extra": {
         "typo3/cms": {
-            "extension-key": "fluid_test"
+            "extension-key": "c1_svg_viewhelpers_test"
         }
     }
 }

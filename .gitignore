@@ -7,3 +7,4 @@
 /var/
 /.cache
 /composer.json.testing
+/Build/testing-docker/.env 

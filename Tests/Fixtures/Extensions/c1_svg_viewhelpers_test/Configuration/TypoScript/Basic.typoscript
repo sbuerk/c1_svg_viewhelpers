@@ -28,15 +28,15 @@ lib.gpvar {
 
 lib.viewConfig {
     templateRootPaths {
-        1 = EXT:fluid_test/Resources/Private/Base/Templates/
+        1 = EXT:c1_svg_viewhelpers_test/Resources/Private/Base/Templates/
     }
 
     partialRootPaths {
-        1 = EXT:fluid_test/Resources/Private/Base/Partials/
+        1 = EXT:c1_svg_viewhelpers_test/Resources/Private/Base/Partials/
     }
 
     layoutRootPaths {
-        1 = EXT:fluid_test/Resources/Private/Base/Layouts/
+        1 = EXT:c1_svg_viewhelpers_test/Resources/Private/Base/Layouts/
     }
 }
 

@@ -81,8 +81,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
             $this->symbolsFile = (string) $presets[$this->arguments['symbolFile']]['file'];
         } elseif ($this->hasArgument('symbolFile')) {
             $this->symbolsFile = (string) $this->arguments['symbolFile'];
-        }
-        else {
+        } else {
             $this->symbolsFile = 'default';
         }
     }
@@ -133,7 +132,11 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         }
     }
 
-    protected function toBoolean(mixed $value): bool
+    /**
+     * we cant set mixed here because no support for it in PHP 7.4
+     * @phpstan-ignore-next-line
+     */
+    protected function toBoolean($value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
