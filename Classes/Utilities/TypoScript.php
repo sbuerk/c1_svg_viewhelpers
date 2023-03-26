@@ -1,6 +1,6 @@
 <?php
 
-namespace C1\C1SvgViewHelpers\Utilities;
+namespace C1\SvgViewHelpers\Utilities;
 
 use TYPO3\CMS\Core\TypoScript\TypoScriptService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

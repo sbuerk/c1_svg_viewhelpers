@@ -44,12 +44,12 @@
     },
     "autoload": {
         "psr-4": {
-            "C1\\C1SvgViewHelpers\\": "Classes/"
+            "C1\\SvgViewHelpers\\": "Classes/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "C1\\C1SvgViewHelpers\\Tests\\" : "Tests/"
+            "C1\\SvgViewHelpers\\Tests\\" : "Tests/"
         }
     },
     "scripts": {

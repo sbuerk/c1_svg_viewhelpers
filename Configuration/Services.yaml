@@ -4,6 +4,6 @@ services:
     autoconfigure: true
     public: false
 
-  C1\C1SvgViewHelpers\:
+  C1\SvgViewHelpers\:
     resource: '../Classes/*'
     exclude: '../Classes/Domain/Model/*'

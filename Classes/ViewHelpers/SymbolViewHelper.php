@@ -1,8 +1,8 @@
 <?php
 
-namespace C1\C1SvgViewHelpers\ViewHelpers;
+namespace C1\SvgViewHelpers\ViewHelpers;
 
-use C1\C1SvgViewHelpers\Utilities\TypoScript;
+use C1\SvgViewHelpers\Utilities\TypoScript;
 use TYPO3\CMS\Core\Page\PageRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -70,7 +70,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      * - TypoScript presets
      * - symbolFile argument
      */
-    public function setSymbolFile(): void
+    private function setSymbolFile(): void
     {
         $presets = $this->settings['svg']['symbol']['presets'];
         if (
@@ -92,20 +92,12 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      * - TypoScript Presets
      * - fallback to "icon-default" if no base class could be set from the two above
      */
-    public function setBaseClass(): void
+    private function setBaseClass(): void
     {
         if ($this->arguments['baseClass']) {
             $this->baseClass = $this->arguments['baseClass'];
         } else {
-            $presets = $this->settings['svg']['symbol']['presets'];
-            if (
-                isset($presets[$this->arguments['symbolFile']]) &&
-                array_key_exists('baseClass', $presets[$this->arguments['symbolFile']])
-            ) {
-                $this->baseClass = $presets[$this->arguments['symbolFile']]['baseClass'];
-            } else {
-                $this->baseClass = 'icon-default';
-            }
+            $this->preload = $this->getPresetFromSettings('baseClass', 'icon-default');
         }
     }
 
@@ -115,20 +107,28 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      * - TypoScript Presets
      * - fallback to true if the value was not set by the 2 options above
      */
-    public function setPreload(): void
+    private function setPreload(): void
     {
         if ($this->hasArgument('preload')) {
             $this->preload = $this->toBoolean($this->arguments['preload']);
         } else {
-            $presets = $this->settings['svg']['symbol']['presets'];
-            if (
-                isset($presets[$this->arguments['symbolFile']]) &&
-                array_key_exists('preload', $presets[$this->arguments['symbolFile']])
-            ) {
-                $this->preload = $this->toBoolean($presets[$this->arguments['symbolFile']]['preload']);
-            } else {
-                $this->preload = true;
-            }
+            $this->preload = $this->getPresetFromSettings('preload', true);
+        }
+    }
+
+    /**
+     * we cant set mixed here for $key and return type because no support for it in PHP 7.4
+     * @phpstan-ignore-next-line
+     */
+    private function getPresetFromSettings(string $key, $default) {
+        $presets = $this->settings['svg']['symbol']['presets'];
+        if (
+            isset($presets[$this->arguments['symbolFile']]) &&
+            array_key_exists($key, $presets[$this->arguments['symbolFile']])
+        ) {
+            return $presets[$this->arguments['symbolFile']][$key];
+        } else {
+            return $default;
         }
     }
 
@@ -136,7 +136,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      * we cant set mixed here because no support for it in PHP 7.4
      * @phpstan-ignore-next-line
      */
-    protected function toBoolean($value): bool
+    private function toBoolean($value): bool
     {
         return filter_var($value, FILTER_VALIDATE_BOOLEAN);
     }
@@ -144,32 +144,36 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     /*
      * Get css class names based on
      * - baseClass argument
-     * - class argument
+     * - optional additional class viewhelper argument
      */
-    public function getCssClassNames(): string
+    private function getCssClassNames(): string
     {
-        $classNames = $this->baseClass . ' ' . $this->baseClass . '-' . $this->arguments['identifier'];
-        $classNames .= ' ' . $this->baseClass . '-' . $this->arguments['identifier'] . '-dims';
+        $classNames = [
+            $this->baseClass,
+            $this->baseClass . '-' . $this->arguments['identifier'],
+            $this->baseClass . '-' . $this->arguments['identifier'] . '-dims',
+        ];
+
         if ($this->hasArgument('class') && $this->arguments['class'] !== '') {
-            $classNames .= ' ' . $this->arguments['class'];
+            $classNames[] = $this->arguments['class'];
         }
-        return $classNames;
+        return implode(" ", $classNames);
     }
 
     // Get absolute file name and path of the symbolFile
-    public function getAbsoluteFilename(): string
+    private function getAbsoluteFilename(): string
     {
         return GeneralUtility::getFileAbsFileName($this->symbolsFile);
     }
 
     // Get the resolved path to the symbolFile
-    public function getSymbolFilePath(): string
+    private function getSymbolFilePath(): string
     {
         return PathUtility::getAbsoluteWebPath($this->getAbsoluteFileName());
     }
 
     // Get public path of the symbolFile
-    public function getSvgPublicFile(): string
+    private function getSvgPublicFile(): string
     {
         if ($this->symbolsFile && $this->getSymbolFilePath()) {
             return $this->getSymbolFilePath();
@@ -178,13 +182,13 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     }
 
     // Return cache buster enabled or not
-    public function cacheBusterEnabled(): bool
+    private function cacheBusterEnabled(): bool
     {
         return $this->arguments['cacheBuster'] ? true : false;
     }
 
     // Get cache buster string
-    public function getCacheBuster(): string
+    private function getCacheBuster(): string
     {
         if (!empty($this->symbolsFile) && file_exists($this->getAbsoluteFilename())) {
             return '?cb=' . md5_file($this->getAbsoluteFilename());
@@ -192,7 +196,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return '';
     }
 
-    public function getSymbolFileURL(): string
+    private function getSymbolFileURL(): string
     {
         $url = $this->getSvgPublicFile();
         if ($this->cacheBusterEnabled()) {
@@ -202,7 +206,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     }
 
     // Build the use tag
-    public function buildUseTag(): string
+    private function buildUseTag(): string
     {
         $xlink = $this->getSymbolFileURL() . '#' . $this->arguments['identifier'];
         $tagBuilder = $this->getTagBuilder();
@@ -212,7 +216,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     }
 
     // Build the SVG tag
-    public function buildSvgTag(): string
+    private function buildSvgTag(): string
     {
         $tagBuilder = $this->getTagBuilder();
         $tagBuilder->setTagName('svg');
@@ -231,7 +235,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
     }
 
     // Build the outer span tag
-    public function buildTag(): string
+    private function buildTag(): string
     {
         $this->tag->setTagName('span');
         $this->tag->addAttribute('class', $this->getCssClassNames());
@@ -243,7 +247,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         return $this->tag->render();
     }
 
-    public function addPreloadHeader(): void
+    private function addPreloadHeader(): void
     {
         $this->pageRenderer->addHeaderData('<link rel="preload" href="' . $this->getSymbolFileURL() . '" as="image" fetchpriority="high" />');
     }

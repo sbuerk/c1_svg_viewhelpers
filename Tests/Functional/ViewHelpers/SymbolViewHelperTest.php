@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-namespace C1\C1SvgViewHelpers\Tests\Functional\ViewHelpers\Svg;
+namespace C1\SvgViewHelpers\Tests\Functional\ViewHelpers;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 use TYPO3\CMS\Core\Configuration\SiteConfiguration;
@@ -178,6 +178,13 @@ class SymbolViewHelperTest extends FunctionalTestCase
                 [
                     '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg'
                 ]
+            ],
+            'with universal tag attribute dir' => [
+                ['dir' => 'ltr'],
+                '',
+                [
+                    ' <span dir="ltr" class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
+                ],
             ],
         ];
     }
