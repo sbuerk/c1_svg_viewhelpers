@@ -120,7 +120,8 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
      * we cant set mixed here for $key and return type because no support for it in PHP 7.4
      * @phpstan-ignore-next-line
      */
-    private function getPresetFromSettings(string $key, $default) {
+    private function getPresetFromSettings(string $key, $default)
+    {
         $presets = $this->settings['svg']['symbol']['presets'];
         if (
             isset($presets[$this->arguments['symbolFile']]) &&
@@ -157,7 +158,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         if ($this->hasArgument('class') && $this->arguments['class'] !== '') {
             $classNames[] = $this->arguments['class'];
         }
-        return implode(" ", $classNames);
+        return implode(' ', $classNames);
     }
 
     // Get absolute file name and path of the symbolFile
