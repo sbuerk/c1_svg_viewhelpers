@@ -42,10 +42,6 @@ indent_style = tab
 [package.json]
 indent_size = 2
 
-# TypoScript
-[*.{typoscript,tsconfig}]
-indent_size = 2
-
 # XLF-Files
 [*.xlf]
 indent_style = tab
