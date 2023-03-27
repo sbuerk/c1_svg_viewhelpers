@@ -54,9 +54,9 @@
         }
     },
     "scripts": {
-        "ts:lint": "typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/",
-		"php:lint": "./Build/Scripts/runTests.sh -n -s cgl -p 8.1",
-		"php:fix": "./Build/Scripts/runTests.sh -s cgl -p 8.1",
+        "ts:lint": "./Build/Scripts/runTests.sh -v -s typoScriptLint",
+		"php:lint": "./Build/Scripts/runTests.sh -n -s cgl",
+		"php:fix": "./Build/Scripts/runTests.sh -s cgl",
         "phpstan": ".Build/vendor/bin/phpstan analyse",
         "tests:unit": "@php .Build/vendor/bin/phpunit -c Tests/UnitTests.xml",
         "tests:functional": "@php .Build/vendor/bin/phpunit -c Tests/FunctionalTests.xml",

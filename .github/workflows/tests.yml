@@ -27,8 +27,6 @@ jobs:
           composer install
       - name: phpstan
         run: composer phpstan
-      - name: Typoscript Linter
-        run: composer ts:lint
 
   lint:
     runs-on: ubuntu-22.04
@@ -47,7 +45,9 @@ jobs:
         run: if [ -n "${{secrets.GITHUB_TOKEN}}" ]; then composer config github-oauth.github.com ${{secrets.GITHUB_TOKEN}}; fi;
       - name: Install testing system
         run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -s composerUpdate
-      - name: CGL
+      - name: TypoScript lint
+        run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -s typoScriptLint
+      - name: CGL (php-cs-fixer)
         run: Build/Scripts/runTests.sh -n -p ${{ matrix.env.php }} -s cgl
 
   tests:

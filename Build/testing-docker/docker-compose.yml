@@ -73,6 +73,32 @@ services:
         fi
       "
 
+  typoScriptLint:
+    image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest
+    user: "${HOST_UID}"
+    volumes:
+      - ${ROOT_DIR}:${ROOT_DIR}
+    working_dir: ${ROOT_DIR}
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: >
+      /bin/sh -c "
+        if [ ${SCRIPT_VERBOSE} -eq 1 ]; then
+          set -x
+        fi
+        php -v | grep '^PHP';
+        if [ ${PHP_XDEBUG_ON} -eq 0 ]; then
+          php -dxdebug.mode=off \\
+          .Build/vendor/bin/typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/
+        else
+          XDEBUG_MODE=\"debug,develop\" \\
+          XDEBUG_TRIGGER=\"foo\" \\
+          XDEBUG_CONFIG=\"client_port=${PHP_XDEBUG_PORT} client_host=host.docker.internal\" \\
+          PHP_CS_FIXER_ALLOW_XDEBUG=1 \\
+          .Build/vendor/bin/typoscript-lint -c Configuration/TsLint.yml --ansi -n --fail-on-warnings -vvv Configuration/TypoScript/
+        fi
+      "
+
 
   functional_sqlite:
     image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest
