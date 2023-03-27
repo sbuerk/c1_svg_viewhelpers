@@ -1,13 +1,15 @@
 plugin.tx_c1svgviewhelpers {
+  settings {
     svg {
-        symbol {
-            presets {
-                default {
-                    file = {$plugin.tx_c1svgviewhelpers.svg.symbol.presets.default.file}
-                    baseClass = {$plugin.tx_c1svgviewhelpers.svg.symbol.presets.default.baseClass}
-                    preload = {$plugin.tx_c1svgviewhelpers.svg.symbol.presets.default.preload}
-                }
-            }
+      symbol {
+        presets {
+          default {
+            file = {$plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.file}
+            baseClass = {$plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.baseClass}
+            preload = {$plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.preload}
+          }
         }
+      }
     }
+  }
 }

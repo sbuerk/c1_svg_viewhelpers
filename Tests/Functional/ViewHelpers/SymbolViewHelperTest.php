@@ -93,7 +93,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
         );
         $this->addTypoScriptToTemplateRecord(
             1,
-            'plugin.tx_c1svgviewhelpers.svg.symbol.presets.default.file = EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg' . LF,
+            'plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.file = EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg' . LF,
         );
     }
 

@@ -21,6 +21,8 @@ class TypoScript
             'tx_c1svgviewhelpers',
             null
         );
-        return $typoScriptService->convertTypoScriptArrayToPlainArray($typoScript['plugin.']['tx_c1svgviewhelpers.'] ?? []);
+        return $typoScriptService->convertTypoScriptArrayToPlainArray(
+            $typoScript['plugin.']['tx_c1svgviewhelpers.']['settings.'] ?? []
+        );
     }
 }
