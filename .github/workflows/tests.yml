@@ -22,6 +22,8 @@ jobs:
         run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -s composerUpdate
       - name: TypoScript lint
         run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -s typoScriptLint
+      - name: Lint php
+        run: Build/Scripts/runTests.sh -n -p ${{ matrix.env.php }} -s cgl
       - name: CGL (php-cs-fixer)
         run: Build/Scripts/runTests.sh -n -p ${{ matrix.env.php }} -s cgl
       - name: phpstan
