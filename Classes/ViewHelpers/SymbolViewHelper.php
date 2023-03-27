@@ -12,8 +12,8 @@ use TYPO3Fluid\Fluid\Core\ViewHelper\TagBuilder;
 class SymbolViewHelper extends AbstractTagBasedViewHelper
 {
     protected string $symbolsFile = '';
-    protected string $baseClass;
-    protected bool $preload;
+    protected string $baseClass = '';
+    protected bool $preload = true;
     protected array $settings = [];
 
     /**
