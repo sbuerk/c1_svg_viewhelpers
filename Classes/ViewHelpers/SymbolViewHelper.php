@@ -97,7 +97,7 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
         if ($this->arguments['baseClass']) {
             $this->baseClass = $this->arguments['baseClass'];
         } else {
-            $this->preload = $this->getPresetFromSettings('baseClass', 'icon-default');
+            $this->baseClass = $this->getPresetFromSettings('baseClass', 'icon-default');
         }
     }
 
