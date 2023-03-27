@@ -1,5 +1,7 @@
 <?php
+
 declare(strict_types=1);
+
 namespace C1\SvgViewHelpers\Tests\Functional\ViewHelpers;
 
 use Psr\EventDispatcher\EventDispatcherInterface;
@@ -74,7 +76,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
             GeneralUtility::rmdir($this->instancePath . '/typo3conf/sites/' . $identifier, true);
             $siteConfiguration->write($identifier, $configuration);
         } catch (\Exception $exception) {
-            $this->markTestSkipped($exception->getMessage());
+            self::markTestSkipped($exception->getMessage());
         }
 
         $this->setUpFrontendRootPage(
@@ -86,7 +88,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
             'setup' => [
                 'EXT:c1_svg_viewhelpers/Configuration/TypoScript/setup.typoscript',
                 'EXT:c1_svg_viewhelpers_test/Configuration/TypoScript/Basic.typoscript',
-            ]
+            ],
         ],
         );
         $this->addTypoScriptToTemplateRecord(
@@ -115,7 +117,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
             ],
             'custom symbolFile' => [
                 [
-                    'symbolFile' => 'EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg'
+                    'symbolFile' => 'EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg',
                 ],
                 '',
                 [
@@ -162,7 +164,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
             'with extra css class' => [
                 [
                     'class' => 'mycustomclass',
-                    'preload' => '1'
+                    'preload' => '1',
                 ],
                 '',
                 [
@@ -171,13 +173,13 @@ class SymbolViewHelperTest extends FunctionalTestCase
             ],
             'disable preload by vh argument' => [
                 [
-                    'preload' => 0
+                    'preload' => 0,
                 ],
                 '',
                 [],
                 [
-                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg'
-                ]
+                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg',
+                ],
             ],
             'with universal tag attribute dir' => [
                 ['dir' => 'ltr'],

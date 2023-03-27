@@ -78,9 +78,9 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
             isset($presets[$this->arguments['symbolFile']]) &&
             array_key_exists('file', $presets[$this->arguments['symbolFile']])
         ) {
-            $this->symbolsFile = (string) $presets[$this->arguments['symbolFile']]['file'];
+            $this->symbolsFile = (string)$presets[$this->arguments['symbolFile']]['file'];
         } elseif ($this->hasArgument('symbolFile')) {
-            $this->symbolsFile = (string) $this->arguments['symbolFile'];
+            $this->symbolsFile = (string)$this->arguments['symbolFile'];
         } else {
             $this->symbolsFile = 'default';
         }
@@ -128,9 +128,8 @@ class SymbolViewHelper extends AbstractTagBasedViewHelper
             array_key_exists($key, $presets[$this->arguments['symbolFile']])
         ) {
             return $presets[$this->arguments['symbolFile']][$key];
-        } else {
-            return $default;
         }
+        return $default;
     }
 
     /**

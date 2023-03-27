@@ -8,7 +8,7 @@ services:
       - ${ROOT_DIR}:${ROOT_DIR}
     working_dir: ${ROOT_DIR}
     environment:
-      COMPOSER_CACHE_DIR: ".cache/composer"
+      COMPOSER_CACHE_DIR: ".Build/.cache/composer"
     command: >
       /bin/sh -c "
         if [ ${SCRIPT_VERBOSE} -eq 1 ]; then
@@ -35,6 +35,44 @@ services:
         fi
         composer update --no-progress --no-interaction;
       "
+
+
+  cgl:
+    image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest
+    user: "${HOST_UID}"
+    volumes:
+      - ${ROOT_DIR}:${ROOT_DIR}
+    working_dir: ${ROOT_DIR}
+    environment:
+      PHP_CS_FIXER_IGNORE_ENV: 1
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: >
+      /bin/sh -c "
+        if [ ${SCRIPT_VERBOSE} -eq 1 ]; then
+          set -x
+        fi
+        php -v | grep '^PHP';
+        if [ ${PHP_XDEBUG_ON} -eq 0 ]; then
+          php -dxdebug.mode=off \\
+            .Build/vendor/bin/php-cs-fixer fix \\
+              -v \\
+              ${CGLCHECK_DRY_RUN} \\
+              --config=.php-cs-fixer.dist.php  \\
+              --using-cache=no .
+        else
+          XDEBUG_MODE=\"debug,develop\" \\
+          XDEBUG_TRIGGER=\"foo\" \\
+          XDEBUG_CONFIG=\"client_port=${PHP_XDEBUG_PORT} client_host=host.docker.internal\" \\
+          PHP_CS_FIXER_ALLOW_XDEBUG=1 \\
+          .Build/vendor/bin/php-cs-fixer fix \\
+            -v \\
+            ${CGLCHECK_DRY_RUN} \\
+            --config=.php-cs-fixer.dist.php  \\
+            --using-cache=no .
+        fi
+      "
+
 
   functional_sqlite:
     image: typo3/core-testing-${DOCKER_PHP_IMAGE}:latest

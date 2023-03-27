@@ -27,8 +27,8 @@ jobs:
           composer install
       - name: phpstan
         run: composer phpstan
-      - name: PHPCS
-        run: composer php:lint
+#      - name: PHPCS
+#        run: composer php:lint
       - name: Typoscript Linter
         run: composer ts:lint
 
@@ -51,5 +51,7 @@ jobs:
         run: if [ -n "${{secrets.GITHUB_TOKEN}}" ]; then composer config github-oauth.github.com ${{secrets.GITHUB_TOKEN}}; fi;
       - name: Install testing system
         run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -t ${{ matrix.env.TYPO3_VERSION }} -s composerUpdate
+      - name: CGL
+        run: Build/Scripts/runTests.sh -n -p ${{ matrix.env.php }} -s cgl
       - name: Functional Tests with sqlite
         run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -t ${{ matrix.env.TYPO3_VERSION }} -d sqlite -s functional

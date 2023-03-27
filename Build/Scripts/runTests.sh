@@ -30,6 +30,7 @@ setUpDockerComposeDotEnv() {
     echo "DOCKER_PHP_IMAGE=${DOCKER_PHP_IMAGE}" >> .env
     echo "EXTRA_TEST_OPTIONS=${EXTRA_TEST_OPTIONS}" >> .env
     echo "SCRIPT_VERBOSE=${SCRIPT_VERBOSE}" >> .env
+    echo "CGLCHECK_DRY_RUN=${CGLCHECK_DRY_RUN}" >> .env
 }
 
 # Load help text into $HELP
@@ -45,16 +46,15 @@ Options:
     -s <...>
         Specifies which test suite to run
             - composerUpdate: "composer update"
+            - cgl: Coding standards (php-cs-fixer)
             - clean: clean up build and testing related files
             - lint: PHP linting
             - unit (default): PHP unit tests
             - functional: functional tests
 
-    -d <mariadb|postgres|sqlite>
+    -d <sqlite>
         Only with -s functional
         Specifies on which DBMS tests are performed
-            - mariadb (default): use mariadb
-            - postgres: use postgres
             - sqlite: use sqlite
 
     -p <7.4|8.0|8.1|8.2>
@@ -86,6 +86,10 @@ Options:
     -y <port>
         Send xdebug information to a different port than default 9003 if an IDE like PhpStorm
         is not listening on default port.
+
+    -n
+        Only with -s cgl
+        Activate dry-run in CGL check that does not actively change files and only prints broken ones.
 
     -u
         Update existing typo3gmbh/phpXY:latest docker images. Maintenance call to docker pull latest
@@ -125,6 +129,7 @@ PHP_XDEBUG_ON=0
 PHP_XDEBUG_PORT=9003
 EXTRA_TEST_OPTIONS=""
 SCRIPT_VERBOSE=0
+CGLCHECK_DRY_RUN=""
 
 # Option parsing
 # Reset in case getopts has been used previously in the shell
@@ -132,7 +137,7 @@ OPTIND=1
 # Array for invalid options
 INVALID_OPTIONS=();
 # Simple option parsing based on getopts (! not getopt)
-while getopts ":s:d:p:t:e:xy:huv" OPT; do
+while getopts ":s:d:p:t:e:xy:nhuv" OPT; do
     case ${OPT} in
         s)
             TEST_SUITE=${OPTARG}
@@ -158,6 +163,9 @@ while getopts ":s:d:p:t:e:xy:huv" OPT; do
         h)
             echo "${HELP}"
             exit 0
+            ;;
+        n)
+            CGLCHECK_DRY_RUN="-n"
             ;;
         u)
             TEST_SUITE=update
@@ -210,22 +218,25 @@ case ${TEST_SUITE} in
             cp ../../composer.json ../../composer.json.orig
         fi
         docker-compose run composer_update
+        docker-compose run composer_validate
         cp ../../composer.json ../../composer.json.testing
         mv ../../composer.json.orig ../../composer.json
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    cgl)
+        # Active dry-run for cgl needs not "-n" but specific options
+        if [[ ! -z ${CGLCHECK_DRY_RUN} ]]; then
+            CGLCHECK_DRY_RUN="--dry-run --diff"
+        fi
+        setUpDockerComposeDotEnv
+        docker-compose run cgl
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;
     functional)
         setUpDockerComposeDotEnv
         case ${DBMS} in
-            mariadb)
-                docker-compose run functional_mariadb10
-                SUITE_EXIT_CODE=$?
-                ;;
-            postgres)
-                docker-compose run functional_postgres10
-                SUITE_EXIT_CODE=$?
-                ;;
             sqlite)
                 # sqlite has a tmpfs as .Build/Web/typo3temp/var/tests/functional-sqlite-dbs/
                 # Since docker is executed as root (yay!), the path to this dir is owned by
