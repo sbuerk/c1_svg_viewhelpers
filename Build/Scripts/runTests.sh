@@ -48,6 +48,7 @@ Options:
             - composerUpdate: "composer update"
             - cgl: Coding standards (php-cs-fixer)
             - typoScriptLint: Lint TypoScript
+            - phpstan: phpstan analyze
             - clean: clean up build and testing related files
             - lint: PHP linting
             - unit (default): PHP unit tests
@@ -239,6 +240,12 @@ case ${TEST_SUITE} in
         # Active dry-run for cgl needs not "-n" but specific options
         setUpDockerComposeDotEnv
         docker-compose run typoScriptLint
+        SUITE_EXIT_CODE=$?
+        docker-compose down
+        ;;
+    phpstan)
+        setUpDockerComposeDotEnv
+        docker-compose run phpstan
         SUITE_EXIT_CODE=$?
         docker-compose down
         ;;

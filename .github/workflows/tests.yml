@@ -3,31 +3,6 @@ name: tests
 on: [push, pull_request]
 
 jobs:
-  lint_old:
-    runs-on: ubuntu-22.04
-    name: Linting
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up PHP Version
-        uses: shivammathur/setup-php@v2
-        with:
-          php-version: 8.1
-          coverage: none
-          tools: composer:v2
-      - name: Cache dependencies
-        uses: actions/cache@v3
-        with:
-          path: ~/.composer/cache
-          key: dependencies-composer-${{ runner.os }}-${{ hashFiles('composer.json') }}
-      - name: Add GITHUB_TOKEN if available
-        run: if [ -n "${{secrets.GITHUB_TOKEN}}" ]; then composer config github-oauth.github.com ${{secrets.GITHUB_TOKEN}}; fi;
-      - name: Install composer dependencies
-        run: |
-          rm -f composer.lock
-          composer install
-      - name: phpstan
-        run: composer phpstan
-
   lint:
     runs-on: ubuntu-22.04
     strategy:
@@ -49,6 +24,8 @@ jobs:
         run: Build/Scripts/runTests.sh -p ${{ matrix.env.php }} -s typoScriptLint
       - name: CGL (php-cs-fixer)
         run: Build/Scripts/runTests.sh -n -p ${{ matrix.env.php }} -s cgl
+      - name: phpstan
+        run: Build/Scripts/runTests.sh -n -p ${{ matrix.env.php }} -s phpstan
 
   tests:
     runs-on: ubuntu-22.04
