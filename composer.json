@@ -2,7 +2,7 @@
     "name": "c1/c1-svg-viewhelpers",
     "description": "SVG viewhelpers - include SVGs as symbol files in TYPO3",
     "homepage": "https://www.comuno.net",
-    "license": ["GPL-2.0+"],
+    "license": ["GPL-2.0-or-later"],
     "type": "typo3-cms-extension",
     "keywords": [
         "Viewhelpers",
