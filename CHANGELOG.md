@@ -6,6 +6,7 @@
 
 - **Breaking:** Move settings from plugin.tx_c1svgviewhelpers.settings.svg to
   plugin.tx_c1svgviewhelpers.settings.svg. Please adapt your TypoScript config.
+- Rework tests
 
 ### Added
 
