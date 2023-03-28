@@ -97,8 +97,11 @@ class SymbolViewHelperTest extends FunctionalTestCase
                 '',
                 [
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
-                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14" as="image" fetchpriority="high" />',
                 ],
+                [
+                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg',
+                ],
+
             ],
             'exception on missing identifier' => [
                 [],
@@ -120,6 +123,25 @@ class SymbolViewHelperTest extends FunctionalTestCase
                     'symbolFile' => 'EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg',
                 ],
                 '',
+                [
+                    '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
+                ],
+            ],
+            'custom symbolFile from settings' => [
+                [
+                    'identifier' => 'house',
+                ],
+                'plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.file=EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg',
+                [
+                    '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
+                ],
+            ],
+            'custom symbolFile where vieHelper argument overwrites preset from settings' => [
+                [
+                    'identifier' => 'house',
+                    'symbolFile' => 'EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg',
+                ],
+                'plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.file=EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-notexists.svg',
                 [
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
                 ],
@@ -154,12 +176,21 @@ class SymbolViewHelperTest extends FunctionalTestCase
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg aria-label="my aria label" role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
                 ],
             ],
-            'with custom baseClass' => [
+            'with custom baseClass from viewhelper arguments' => [
                 [
                     'identifier' => 'house',
                     'baseClass' => 'myicon',
                 ],
                 '',
+                [
+                    '<span class="myicon myicon-house myicon-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
+                ],
+            ],
+            'with custom baseClass from settings' => [
+                [
+                    'identifier' => 'house',
+                ],
+                'plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.baseClass=myicon',
                 [
                     '<span class="myicon myicon-house myicon-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
                 ],
@@ -184,15 +215,23 @@ class SymbolViewHelperTest extends FunctionalTestCase
                     '<span class="icon-default icon-default-house icon-default-house-dims mycustomclass"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
                 ],
             ],
-            'disable preload by vh argument' => [
+            'enable preload by vh argument' => [
                 [
                     'identifier' => 'house',
-                    'preload' => '0',
+                    'preload' => '1',
                 ],
                 '',
-                [],
                 [
-                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg',
+                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14" as="image" fetchpriority="high" />',
+                ],
+            ],
+            'enable preload by settings' => [
+                [
+                    'identifier' => 'house',
+                ],
+                'plugin.tx_c1svgviewhelpers.settings.svg.symbol.presets.default.preload=1',
+                [
+                    '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14" as="image" fetchpriority="high" />',
                 ],
             ],
             'with universal tag attribute dir' => [
