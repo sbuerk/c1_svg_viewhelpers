@@ -10,8 +10,12 @@
 
 ### Added
 
-- Add preload header tag by default for faster loading of the symbols file.
-  This can be disabled in settings or with an viewhelper argument.
+- Experimental: Add preload header tag for faster loading of the symbols file.
+  This is by default off and can be enabled in settings or with a viewhelper
+  argument.
+  It seems, the preloading works with this, but Chrome logs a warning:
+  "was preloaded using link preload but not used within a few seconds"
+  See: https://bugs.chromium.org/p/chromium/issues/detail?id=1065069
 
 ## 1.0.0 - 2022-08-14
 

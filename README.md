@@ -71,7 +71,7 @@ will output something like:
 | role        | role for accessibility                                         | string    | graphics-symbol | no          |
 | ariaLabel   | Sets the aria-label on the svg tag for accessibility           | string    |                 | no          |
 | cacheBuster | Add a cache buster parameter to the symbolFile url             | bool      | true            | no          |
-| preload     | Preload the symbols file by inserting a link rel="preload" tag | bool      | true            | no          |
+| preload     | Preload the symbols file by inserting a link rel="preload" tag | bool      | false           | no          |
 
 In addition all universal tag attributes are supported:
 

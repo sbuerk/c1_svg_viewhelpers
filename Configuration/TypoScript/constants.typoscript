@@ -6,7 +6,7 @@ plugin.tx_c1svgviewhelpers {
                     default {
                         file = EXT:c1_svg_viewhelpers/Resources/Public/Default/symbol/default-symbol.svg
                         baseClass = icon-default
-                        preload = 1
+                        preload = 0
                     }
                 }
             }
