@@ -18,19 +18,11 @@ class SymbolViewHelperTest extends FunctionalTestCase
     protected array $testExtensionsToLoad = [
         '../../Tests/Fixtures/Extensions/c1_svg_viewhelpers_test',
         '../../../c1_svg_viewhelpers',
+        'typo3conf/ext/vhs',
     ];
 
     protected array $defaultArguments = [
             'id' => 1,
-            'identifier' => 'house',
-            'symbolFile' => 'default',
-            'baseClass' => 'icon-default',
-            'role' => 'graphics-symbol',
-            'ariaLabel' => '',
-            'cacheBuster' => '1',
-            'preload' => '1',
-            'title' => '',
-            'class' => '',
         ];
 
     protected $backupGlobals = true;
@@ -101,11 +93,18 @@ class SymbolViewHelperTest extends FunctionalTestCase
     {
         return [
             'default' => [
-                [],
+                ['identifier' => 'house'],
                 '',
                 [
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
                     '<link rel="preload" href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14" as="image" fetchpriority="high" />',
+                ],
+            ],
+            'exception on missing identifier' => [
+                [],
+                '',
+                [
+                    '1237823699',
                 ],
             ],
             'identifier is mail' => [
@@ -117,6 +116,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
             ],
             'custom symbolFile' => [
                 [
+                    'identifier' => 'house',
                     'symbolFile' => 'EXT:c1_svg_viewhelpers/Tests/Fixtures/sprite-alternative.svg',
                 ],
                 '',
@@ -125,21 +125,30 @@ class SymbolViewHelperTest extends FunctionalTestCase
                 ],
             ],
             'no_cache_buster' => [
-                ['cacheBuster' => '0'],
+                [
+                    'identifier' => 'house',
+                    'cacheBuster' => '0',
+                ],
                 '',
                 [
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg#house" /></svg></span>',
                 ],
             ],
             'role set to img' => [
-                ['role' => 'img'],
+                [
+                    'identifier' => 'house',
+                    'role' => 'img',
+                ],
                 '',
                 [
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg role="img"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
                 ],
             ],
             'with ariaLabel' => [
-                ['ariaLabel' => 'my aria label'],
+                [
+                    'identifier' => 'house',
+                    'ariaLabel' => 'my aria label',
+                ],
                 '',
                 [
                     '<span class="icon-default icon-default-house icon-default-house-dims"><svg aria-label="my aria label" role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
@@ -147,6 +156,7 @@ class SymbolViewHelperTest extends FunctionalTestCase
             ],
             'with custom baseClass' => [
                 [
+                    'identifier' => 'house',
                     'baseClass' => 'myicon',
                 ],
                 '',
@@ -155,7 +165,10 @@ class SymbolViewHelperTest extends FunctionalTestCase
                 ],
             ],
             'with title' => [
-                ['title' => 'myicontitle'],
+                [
+                    'identifier' => 'house',
+                    'title' => 'myicontitle',
+                ],
                 '',
                 [
                     '<span title="myicontitle" class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',
@@ -163,8 +176,8 @@ class SymbolViewHelperTest extends FunctionalTestCase
             ],
             'with extra css class' => [
                 [
+                    'identifier' => 'house',
                     'class' => 'mycustomclass',
-                    'preload' => '1',
                 ],
                 '',
                 [
@@ -173,7 +186,8 @@ class SymbolViewHelperTest extends FunctionalTestCase
             ],
             'disable preload by vh argument' => [
                 [
-                    'preload' => 0,
+                    'identifier' => 'house',
+                    'preload' => '0',
                 ],
                 '',
                 [],
@@ -182,7 +196,10 @@ class SymbolViewHelperTest extends FunctionalTestCase
                 ],
             ],
             'with universal tag attribute dir' => [
-                ['dir' => 'ltr'],
+                [
+                    'identifier' => 'house',
+                    'dir' => 'ltr',
+                ],
                 '',
                 [
                     ' <span dir="ltr" class="icon-default icon-default-house icon-default-house-dims"><svg role="graphics-symbol"><use xlink:href="/typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/sprite-default.svg?cb=ccb77e624e62a33b420baff0de4eef14#house" /></svg></span>',

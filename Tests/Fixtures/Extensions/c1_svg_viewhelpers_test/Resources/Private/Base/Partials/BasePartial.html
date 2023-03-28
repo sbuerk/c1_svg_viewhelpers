@@ -2,18 +2,42 @@
       data-namespace-typo3-fluid="true">
 
 <f:section name="main">
-    <svgvh:symbol
-            identifier="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'identifier')}"
-            symbolFile="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'symbolFile')}"
-            baseClass="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'baseClass')}"
-            role="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'role')}"
-            ariaLabel="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'ariaLabel')}"
-            cacheBuster="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'cacheBuster')}"
-            preload="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'preload')}"
-            title="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'title')}"
-            dir="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'dir')}"
-            class="{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'class')}"
-    />
+    <f:variable name="identifier">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'identifier')}</f:variable>
+    <f:variable name="symbolFile">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'symbolFile')}</f:variable>
+    <f:variable name="baseClass">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'baseClass')}</f:variable>
+    <f:variable name="class">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'class')}</f:variable>
+    <f:variable name="role">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'role')}</f:variable>
+    <f:variable name="ariaLabel">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'ariaLabel')}</f:variable>
+    <f:variable name="title">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'title')}</f:variable>
+    <f:variable name="cacheBuster">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'cacheBuster')}</f:variable>
+    <f:variable name="preload">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'preload')}</f:variable>
+    <f:variable name="dir">{f:cObject(typoscriptObjectPath: 'lib.gpvar', data: 'dir')}</f:variable>
+
+    <f:comment>
+        Note: The opening brace for the svgvh.symbol viewHelper is a &lt;
+        This way the variable gets stored as is the svgvh.symbol viewhelper is not executed yet but later with the
+        v:render.inline viewhelper.
+        This is a workaround to only add viewhelper arguments which should be set.
+    </f:comment>
+    <f:variable name="viewhelper">
+        &lt;svgvh:symbol
+            {f:if(condition: identifier, then: 'identifier="{identifier}"')}
+            {f:if(condition: symbolFile, then: 'symbolFile="{symbolFile}"')}
+            {f:if(condition: baseClass, then: 'baseClass="{baseClass}"')}
+            {f:if(condition: class, then: 'class="{class}"')}
+            {f:if(condition: role, then: 'role="{role}"')}
+            {f:if(condition: ariaLabel, then: 'ariaLabel="{ariaLabel}"')}
+            {f:if(condition: title, then: 'title="{title}"')}
+            {f:if(condition: '{cacheBuster} !== \'\'', then: 'cacheBuster="{cacheBuster}"')}
+            {f:if(condition: '{preload} !== \'\'', then: 'preload="{preload}"')}
+            {f:if(condition: dir, then: 'dir="{dir}"')}
+        />
+    </f:variable>
+
+    <v:render.inline graceful="1">
+        {viewhelper->f:format.htmlEntitiesDecode()}
+    </v:render.inline>
+
 </f:section>
 
 </html>
