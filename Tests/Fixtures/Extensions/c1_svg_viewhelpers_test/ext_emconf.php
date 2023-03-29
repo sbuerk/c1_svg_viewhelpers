@@ -13,7 +13,7 @@ $EM_CONF[$_EXTKEY] = [
     'version' => '1.0.0',
     'autoload' => [
         'psr-4' => [
-            'C1\\SvgViewHelpersTest\\' => 'Classes',
+            'C1\\SvgViewhelpersTest\\' => 'Classes',
         ],
     ],
 ];

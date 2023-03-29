@@ -1,6 +1,6 @@
 <?php
 
-namespace C1\SvgViewHelpersTest\ViewHelpers\Render;
+namespace C1\SvgViewhelpersTest\ViewHelper\Render;
 
 /*
  * This file is part of the FluidTYPO3/Vhs project under GPLv2 or later.

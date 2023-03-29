@@ -1,7 +1,7 @@
 {
-    "name": "typo3/fixture-c1-svg-viewhelpers-test",
+    "name": "c1/c1-svg-viewhelpers-test",
     "type": "typo3-cms-extension",
-    "description": "Some Fluid rendering tests",
+    "description": "Support extension for c1_svg_viewhelpers tests",
     "license": "GPL-2.0-or-later",
     "extra": {
         "typo3/cms": {
@@ -10,7 +10,7 @@
     },
 	"autoload": {
 		"psr-4": {
-			"C1\\SvgViewHelpersTest\\": "Classes/"
+			"C1\\SvgViewhelpersTest\\": "Classes"
 		}
 	}
 }

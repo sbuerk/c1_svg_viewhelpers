@@ -14,6 +14,12 @@
     "require": {
         "typo3/cms-core": "^11.5 || ^12"
     },
+	"repositories": [
+		{
+			"type": "path",
+			"url": "Tests/Fixtures/Extensions/*"
+		}
+	],
     "config": {
         "vendor-dir": ".Build/vendor",
         "bin-dir": ".Build/vendor/bin",
@@ -41,7 +47,8 @@
         "typo3/tailor": "^1.4",
         "phpspec/prophecy": "^1.16",
         "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.0.1",
-        "typo3/coding-standards": "^v0.6.1 || ^0.7.1"
+        "typo3/coding-standards": "^v0.6.1 || ^0.7.1",
+        "c1/c1-svg-viewhelpers-test": "@dev"
     },
     "autoload": {
         "psr-4": {
