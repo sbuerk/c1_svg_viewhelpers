@@ -41,8 +41,7 @@
         "typo3/tailor": "^1.4",
         "phpspec/prophecy": "^1.16",
         "sbuerk/typo3-cmscomposerinstallers-testingframework-bridge": "^0.0.1",
-        "typo3/coding-standards": "^v0.6.1 || ^0.7.1",
-        "fluidtypo3/vhs": "^11 || dev-development"
+        "typo3/coding-standards": "^v0.6.1 || ^0.7.1"
     },
     "autoload": {
         "psr-4": {

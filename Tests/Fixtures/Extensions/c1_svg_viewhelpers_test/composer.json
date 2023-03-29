@@ -7,5 +7,10 @@
         "typo3/cms": {
             "extension-key": "c1_svg_viewhelpers_test"
         }
-    }
+    },
+	"autoload": {
+		"psr-4": {
+			"C1\\SvgViewHelpersTest\\": "Classes/"
+		}
+	}
 }

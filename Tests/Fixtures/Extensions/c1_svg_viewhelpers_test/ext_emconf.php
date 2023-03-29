@@ -11,4 +11,9 @@ $EM_CONF[$_EXTKEY] = [
     'author_company' => 'comuno.net',
     'state' => 'stable',
     'version' => '1.0.0',
+    'autoload' => [
+        'psr-4' => [
+            'C1\\SvgViewHelpersTest\\' => 'Classes',
+        ],
+    ],
 ];
