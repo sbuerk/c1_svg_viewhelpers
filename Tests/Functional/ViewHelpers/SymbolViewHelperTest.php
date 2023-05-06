@@ -16,8 +16,8 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class SymbolViewHelperTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
-        '../../Tests/Fixtures/Extensions/c1_svg_viewhelpers_test',
-        '../../../c1_svg_viewhelpers',
+        'typo3conf/ext/c1_svg_viewhelpers/Tests/Fixtures/Extensions/c1_svg_viewhelpers_test',
+        'typo3conf/ext/c1_svg_viewhelpers',
     ];
 
     protected array $defaultArguments = [
