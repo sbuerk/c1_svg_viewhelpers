@@ -16,13 +16,13 @@ use TYPO3\TestingFramework\Core\Functional\FunctionalTestCase;
 class SymbolViewHelperTest extends FunctionalTestCase
 {
     protected array $testExtensionsToLoad = [
-        __DIR__ . '/Fixtures/Extensions/c1_svg_viewhelpers_test',
         'typo3conf/ext/c1_svg_viewhelpers',
+        __DIR__ . '/Fixtures/Extensions/c1_svg_viewhelpers_test',
     ];
 
     protected array $defaultArguments = [
-            'id' => 1,
-        ];
+        'id' => 1,
+    ];
 
     protected $backupGlobals = true;
 
